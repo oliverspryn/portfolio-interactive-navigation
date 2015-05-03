@@ -27,8 +27,8 @@ class Navigation extends NavigationConfig {
 		this.Rings = new Array<Ring>(count);
 
 		this.Canvas.addEventListener("mousedown", (e: MouseEvent) => {
-			var target: HTMLCanvasElement = <HTMLCanvasElement>e.target;
-			var mouse: Point = new Point(e.pageX - target.offsetLeft, e.pageY - target.offsetTop);
+			var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+			var mouse: Point = new Point(e.pageX, e.pageY - scrollTop);
 			var dist: Point = null;
 			var selected: number = -1;
 
@@ -43,12 +43,14 @@ class Navigation extends NavigationConfig {
 						(this.Rings[i].Location.X * this.Canvas.width) - mouse.X,
 						(this.Rings[i].Location.Y * this.Canvas.height) - mouse.Y
 					);
-					mouse = new Point(e.pageX - target.offsetLeft, e.pageY - target.offsetTop);
+
+					scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+					mouse = new Point(e.pageX, e.pageY - scrollTop);
 					selected = i;
 
 					function moveHandler(ref: Navigation, sel: number) {
 						return function(e: MouseEvent) {
-							mouse = new Point(e.pageX - target.offsetLeft, e.pageY - target.offsetTop);
+							mouse = new Point(e.pageX, e.pageY - scrollTop);
 
 							ref.Rings[selected].Location.X = ((mouse.X + diff.X) / ref.Canvas.width);
 							ref.Rings[selected].Location.Y = ((mouse.Y + diff.Y) / ref.Canvas.height);

@@ -152,19 +152,20 @@ var Navigation = (function (_super) {
         this.FrameTime = 1000.0 / fps;
         this.Rings = new Array(count);
         this.Canvas.addEventListener("mousedown", function (e) {
-            var target = e.target;
-            var mouse = new Point(e.pageX - target.offsetLeft, e.pageY - target.offsetTop);
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+            var mouse = new Point(e.pageX, e.pageY - scrollTop);
             var dist = null;
             var selected = -1;
             for (var i = _this.Rings.length - 1; i >= 0; --i) {
                 dist = new Point(Math.abs((_this.Rings[i].Location.X * _this.Canvas.width) - mouse.X), Math.abs((_this.Rings[i].Location.Y * _this.Canvas.height) - mouse.Y));
                 if ((dist.X * dist.X) + (dist.Y * dist.Y) < (_this.Rings[i].Radius * _this.Rings[i].Radius)) {
                     var diff = new Point((_this.Rings[i].Location.X * _this.Canvas.width) - mouse.X, (_this.Rings[i].Location.Y * _this.Canvas.height) - mouse.Y);
-                    mouse = new Point(e.pageX - target.offsetLeft, e.pageY - target.offsetTop);
+                    scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+                    mouse = new Point(e.pageX, e.pageY - scrollTop);
                     selected = i;
                     function moveHandler(ref, sel) {
                         return function (e) {
-                            mouse = new Point(e.pageX - target.offsetLeft, e.pageY - target.offsetTop);
+                            mouse = new Point(e.pageX, e.pageY - scrollTop);
                             ref.Rings[selected].Location.X = ((mouse.X + diff.X) / ref.Canvas.width);
                             ref.Rings[selected].Location.Y = ((mouse.Y + diff.Y) / ref.Canvas.height);
                         };
