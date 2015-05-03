@@ -16,21 +16,21 @@ class VaryingArc extends RingBase {
 		this.Config.ArcVaryingMinRadians = 0.0;
 		this.Config.Type = RingType.VaryingArc;
 		this.Radians = 0.0;
-		this.Size = VaryingSize.Expanding;
+		this.Size = (Math.round(Math.random()) === 1) ? VaryingSize.Expanding : VaryingSize.Shrinking;
 	}
 
 // setters
 	public set ArcMaxRadians(ar: number) {
 		this.Config.ArcVaryingMaxRadians = ar;
 		this.RadStart = 0.0;
-		this.RadEnd = this.Config.ArcVaryingMinRadians;
+		this.RadEnd = this.Config.ArcVaryingMinRadians + (Math.abs(this.Config.ArcVaryingMaxRadians - this.Config.ArcVaryingMinRadians) / 2.0);
 		this.Radians = this.RadEnd - this.RadStart;
 	}
 
 	public set ArcMinRadians(ar: number) {
 		this.Config.ArcVaryingMinRadians = ar;
 		this.RadStart = 0.0;
-		this.RadEnd = ar;
+		this.RadEnd = this.Config.ArcVaryingMinRadians + (Math.abs(this.Config.ArcVaryingMaxRadians - this.Config.ArcVaryingMinRadians) / 2.0);
 		this.Radians = this.RadEnd - this.RadStart;
 	}
 

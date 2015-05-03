@@ -309,13 +309,13 @@ var VaryingArc = (function (_super) {
         this.Config.ArcVaryingMinRadians = 0.0;
         this.Config.Type = 2 /* VaryingArc */;
         this.Radians = 0.0;
-        this.Size = 0 /* Expanding */;
+        this.Size = (Math.round(Math.random()) === 1) ? 0 /* Expanding */ : 1 /* Shrinking */;
     }
     Object.defineProperty(VaryingArc.prototype, "ArcMaxRadians", {
         set: function (ar) {
             this.Config.ArcVaryingMaxRadians = ar;
             this.RadStart = 0.0;
-            this.RadEnd = this.Config.ArcVaryingMinRadians;
+            this.RadEnd = this.Config.ArcVaryingMinRadians + (Math.abs(this.Config.ArcVaryingMaxRadians - this.Config.ArcVaryingMinRadians) / 2.0);
             this.Radians = this.RadEnd - this.RadStart;
         },
         enumerable: true,
@@ -325,7 +325,7 @@ var VaryingArc = (function (_super) {
         set: function (ar) {
             this.Config.ArcVaryingMinRadians = ar;
             this.RadStart = 0.0;
-            this.RadEnd = ar;
+            this.RadEnd = this.Config.ArcVaryingMinRadians + (Math.abs(this.Config.ArcVaryingMaxRadians - this.Config.ArcVaryingMinRadians) / 2.0);
             this.Radians = this.RadEnd - this.RadStart;
         },
         enumerable: true,
